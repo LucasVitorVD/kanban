@@ -16,20 +16,34 @@ import {
   SheetFooter, 
   SheetClose 
 } from "@/components/ui/sheet";
+import TaskCard from "../task-card/TaskCard";
+import { Board } from "@/types/board";
+import { Suspense } from "react";
 
 interface Props {
-  title: string;
-  children?: React.ReactNode;
+  board: Board
 }
 
-export default function Board({ title, children }: Props) {
+export default async function Board({ board }: Props) {
+  const url = "http://localhost:3004/tasks"
+  const tasks = await board.loadTasks(url)
+
   return (
     <Card className="flex flex-col border rounded border-gray-400 col-auto">
       <CardHeader>
-        <CardTitle className="font-medium text-base">{title}</CardTitle>
+        <CardTitle className="font-medium text-base">{board.Title}</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-1 flex-col gap-4">
-        {children}
+        {tasks && tasks.length > 0 ? (
+          tasks.map((task) => (
+            <TaskCard 
+              key={task.id}
+              task={task}
+            />
+          ))
+        ) : (
+          <p>Sem tarefas</p>
+        )}
       </CardContent>
       <CardFooter>
         <Sheet>
@@ -38,7 +52,7 @@ export default function Board({ title, children }: Props) {
           </SheetTrigger>
           <SheetContent>
             <SheetHeader>
-              <SheetTitle>Adicionar tarefa</SheetTitle>
+              <SheetTitle>Adicionar tarefa ({board.Title})</SheetTitle>
               <SheetDescription>
                 Make changes to your profile here. Click save when youre done.
               </SheetDescription>

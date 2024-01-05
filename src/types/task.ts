@@ -21,5 +21,6 @@ export interface Task {
   content: string,
   devices?: Devices[],
   status: Status,
-  time: Date
+  time: Date,
+  boardId: string
 }

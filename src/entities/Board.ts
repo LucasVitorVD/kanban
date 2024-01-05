@@ -1,39 +1,42 @@
-import { Task } from "@/types/task";
+import { v4 as uuid } from "uuid";
+import { fetchTasks } from "@/lib/data";
 
 export class Board {
-  #id: string | number = "";
-  #name: string = ""
-  #tasks: Task[] = []
+  #id: string | number = uuid();
+  #title: string = "";
+  #status: string = ""
 
   constructor(
-    id: string | number,
-    name: string
+    title: string,
+    status: string
   ) {
-    this.#id = id,
-    this.#name = name
+    this.#title = title
+    this.#status = status
   }
 
   public get Id(): string | number {
     return this.#id
   }
 
-  public get Name(): string {
-    return this.#name
+  public get Title(): string {
+    return this.#title
   }
 
-  public set Name(name: string) {
-    this.#name = name
+  public set Title(title: string) {
+    this.#title = title 
   }
 
-  public get Task(): Task[] {
-    return this.#tasks
+  public async loadTasks(url: string) {
+    const tasks = await fetchTasks(url, this.#status)
+
+    return tasks
   }
 
-  public addTask(task: Task) {
+  /* public addTask(task: Task) {
     this.#tasks.push(task)
   }
 
   public removeTask(id: string | number) {
     this.#tasks = this.#tasks.filter(task => task.id !== id)
-  }
+  } */
 } 

@@ -17,23 +17,24 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { Task } from "@/types/task";
 
-export default function TaskCard() {
+interface Props {
+  task: Task
+}
+
+export default async function TaskCard({ task }: Props) {
   return (
     <Card className="hover:border-blue-400">
       <CardHeader className="flex items-start">
-        <Badge variant="low">Low</Badge>
+        <Badge variant={task.priority}>{task.priority}</Badge>
       </CardHeader>
       <CardContent>
         <div className="space-y-2">
           <Sheet>
             <SheetTrigger asChild>
               <p className="cursor-pointer hover:underline">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Molestiae repellendus at sint! Magni ducimus similique vero
-                laudantium asperiores itaque architecto distinctio dolorum
-                dolor. Nam odit similique laudantium consequatur eligendi
-                officiis?
+                {task.content}
               </p>
             </SheetTrigger>
             <SheetContent>
@@ -53,11 +54,12 @@ export default function TaskCard() {
           </Sheet>
 
           <div className="space-x-4">
-            <Badge variant="mobile">Mobile</Badge>
-            <Badge variant="web">Web</Badge>
+            {task.devices && task.devices?.map((device, i) => (
+              <Badge key={i} variant={device}>{device}</Badge>  
+            ))}
           </div>
 
-          <p className="text-muted-foreground">Mar 3, 2024</p>
+          <p className="text-muted-foreground">Date</p>
         </div>
       </CardContent>
       <CardFooter className="flex justify-end">
