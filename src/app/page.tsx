@@ -2,7 +2,7 @@ import Board from "@/components/board/Board";
 import { Board as IBoard } from "@/types/board";
 import { v4 as uuid } from "uuid";
 
-export default async function Home() {
+export default function Home() {
   const boards: IBoard[] = [
     {
       id: uuid(),

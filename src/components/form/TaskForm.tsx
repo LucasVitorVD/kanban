@@ -1,8 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Device, Status } from "@/types/task";
-import { Task } from "@/types/task";
+import { Task, Device, Status } from "@/types/task";
 import {
   Form,
   FormField,
@@ -23,17 +22,18 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { fetchAddTask } from "@/lib/actions";
+import { fetchAddTask, fetchEditTask } from "@/lib/actions";
 
 interface Props {
-  setShowSheet: React.Dispatch<boolean>;
-  boardStatus: Status
+  setShowSheet?: React.Dispatch<boolean>;
+  boardStatus?: Status,
+  payload?: Task
 }
 
-export default function TaskForm({ setShowSheet, boardStatus }: Props) {
+export default function TaskForm({ setShowSheet, boardStatus, payload }: Props) {
   const form = useForm<taskFormSchema>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
+    defaultValues: payload ? payload : {
       content: "",
       devices: [],
     },
@@ -51,15 +51,18 @@ export default function TaskForm({ setShowSheet, boardStatus }: Props) {
   ]
 
   async function onSubmit(values: taskFormSchema) {
-    const { ...data } = values
+    if (!payload) {
+      const time = new Date() 
+      const task: Omit<Task, "id"> = { ...values, status: boardStatus ?? "todo", time }
 
-    const time = new Date() 
+      await fetchAddTask(task)
+    } else {
+      const updatedTask = { ...values }
+      await fetchEditTask(updatedTask, payload.id)
+      console.log(values)
+    }
 
-    const task: Omit<Task, "id"> = { ...data, status: boardStatus, time }
-
-    await fetchAddTask(task)
-
-    setShowSheet(false);
+    if (setShowSheet) setShowSheet(false);
   }
 
   return (
@@ -145,7 +148,7 @@ export default function TaskForm({ setShowSheet, boardStatus }: Props) {
             </FormItem>
           )}
         />
-        <Button type="submit">Adicionar</Button>
+        <Button type="submit">{payload ? "Salvar" : "Adicionar"}</Button>
       </form>
     </Form>
   );

@@ -1,3 +1,5 @@
+"use client"
+
 import {
   Card,
   CardHeader,
@@ -5,26 +7,27 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Task } from "@/types/task";
 import { priorityMapping, formatDate } from "@/lib/utils";
+import TaskForm from "@/components/form/TaskForm";
+import { useState } from "react";
 
 interface Props {
   task: Task
 }
 
-export default async function TaskCard({ task }: Props) {
+export default function TaskCard({ task }: Props) {
+  const [showSheet, setShowSheet] = useState(false)
+
   return (
     <Card className="hover:border-blue-400">
       <CardHeader className="flex items-start">
@@ -32,7 +35,7 @@ export default async function TaskCard({ task }: Props) {
       </CardHeader>
       <CardContent>
         <div className="space-y-2">
-          <Sheet>
+          <Sheet open={showSheet} onOpenChange={setShowSheet}>
             <SheetTrigger asChild>
               <p className="cursor-pointer hover:underline">
                 {task.content}
@@ -40,17 +43,14 @@ export default async function TaskCard({ task }: Props) {
             </SheetTrigger>
             <SheetContent>
               <SheetHeader>
-                <SheetTitle>Edit profile</SheetTitle>
+                <SheetTitle>Editar tarefa</SheetTitle>
                 <SheetDescription>
-                  Make changes to your profile here. Click save when youre done.
+                  Edite os dados da tarefa aqui. Clique em &ldquo;Salvar&rdquo; quando acabar.
                 </SheetDescription>
               </SheetHeader>
-              <div className="grid gap-4 py-4"></div>
-              <SheetFooter>
-                <SheetClose asChild>
-                  <Button type="submit">Save changes</Button>
-                </SheetClose>
-              </SheetFooter>
+              <div className="grid gap-4 py-4">
+                <TaskForm payload={task} setShowSheet={setShowSheet} />
+              </div>
             </SheetContent>
           </Sheet>
 
