@@ -1,26 +1,13 @@
-export enum Priority {
-  LOW = "low",
-  MEDIUM = "medium",
-  HIGH = "high"
-}
+import type { taskFormSchema } from "@/schemas/taskFormSchema"
 
-export enum Status {
-  TODO = "todo",
-  IN_PROGRESS = "in progress",
-  DONE = "done"
-}
+export type Priority = "low" | "medium" | "high"
 
-export enum Devices {
-  MOBILE = "mobile",
-  WEB = "web"
-}
+export type Device = "web" | "mobile"
 
-export interface Task {
+export type Status = "todo" | "in_progress" | "done"
+
+export interface Task extends taskFormSchema {
   id: string | number,
-  priority: Priority,
-  content: string,
-  devices?: Devices[],
   status: Status,
-  time: Date,
-  boardId: string
+  time: Date
 }

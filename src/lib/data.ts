@@ -1,12 +1,25 @@
 import { Task } from "@/types/task"
 
-export async function fetchTasks(url: string, status: string) {
+const url = "http://localhost:3004/tasks"
+
+export async function fetchTasks() {
   try {
-    const res = await fetch(`${url}?status=${status}`, { cache: 'no-store' })
+    const res = await fetch(url, { next: { tags: ['allTasks'] }})
     const data: Task[] = await res.json()
 
     return data
   } catch (error) {
-    console.log(error)
+    throw new Error("Erro ao buscar as tarefas.")
+  }
+}
+
+export async function fetchTasksByStatus(status: string) {
+  try {
+    const res = await fetch(`${url}?status=${status}`, { next: { tags: ['tasksByFilter'] }})
+    const data: Task[] = await res.json()
+
+    return data
+  } catch (error) {
+    throw new Error("Erro ao buscar as tarefas.")
   }
 }

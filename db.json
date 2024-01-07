@@ -1,28 +1,14 @@
 {
   "tasks": [
     {
-      "id": "ienfebsouibefobao",
-      "priority": "low", 
-      "content": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae repellendus at sint! Magni ducimusimilique vero laudantium asperiores itaque architecto distinctio dolorum dolor.", 
-      "devices": ["web"],
-      "time": "03/01/2024",
-      "status": "todo"
-    },
-    {
-      "id": "anininadsx",
-      "priority": "medium", 
-      "content": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae repellendus at sint! Magni ducimusimilique vero laudantium asperiores itaque architecto distinctio dolorum dolor.", 
-      "devices": ["web", "mobile"],
-      "time": "03/01/2024",
-      "status": "in_progress"
-    },
-    {
-      "id": "ienfebsouibefobao",
-      "priority": "high", 
-      "content": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae repellendus at sint! Magni ducimusimilique vero laudantium asperiores itaque architecto distinctio dolorum dolor.", 
-      "devices": ["mobile"],
-      "time": "03/01/2024",
-      "status": "done"
+      "content": "Ler",
+      "priority": "high",
+      "devices": [
+        "web"
+      ],
+      "status": "todo",
+      "time": "2024-01-07T21:07:58.454Z",
+      "id": 1
     }
   ]
 }

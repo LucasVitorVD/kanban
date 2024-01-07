@@ -18,6 +18,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Task } from "@/types/task";
+import { priorityMapping, formatDate } from "@/lib/utils";
 
 interface Props {
   task: Task
@@ -27,7 +28,7 @@ export default async function TaskCard({ task }: Props) {
   return (
     <Card className="hover:border-blue-400">
       <CardHeader className="flex items-start">
-        <Badge variant={task.priority}>{task.priority}</Badge>
+        <Badge variant={task.priority}>{priorityMapping(task.priority)}</Badge>
       </CardHeader>
       <CardContent>
         <div className="space-y-2">
@@ -59,7 +60,7 @@ export default async function TaskCard({ task }: Props) {
             ))}
           </div>
 
-          <p className="text-muted-foreground">Date</p>
+          <p className="text-muted-foreground">{formatDate(task.time)}</p>
         </div>
       </CardContent>
       <CardFooter className="flex justify-end">
